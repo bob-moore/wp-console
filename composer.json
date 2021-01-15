@@ -5,6 +5,7 @@
 	"keywords": ["wp","wordpress", "logging", "console"],
 	"homepage": "https://github.com/bob-moore/wp-console",
 	"license": "MIT",
+	"version" : "1.0.0",
 	"authors": [
 		{
 			"name": "Bob Moore",
