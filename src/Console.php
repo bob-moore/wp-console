@@ -3,13 +3,6 @@
 namespace wpcl\wpconsole;
 
 class Console {
-
-	public function __construct() {
-		/**
-		 * Attach our print action
-		 */
-		add_action( 'shutdown', [__CLASS__, 'printLog'] );
-	}
 	/**
 	 * Log an item
 	 *
@@ -33,6 +26,12 @@ class Console {
 		 * 3. Update the log for 24 hours
 		 */
 		set_transient( __CLASS__ . '_log', $log, 60*60*24 );
+		/**
+		 * Add the action to the shutdown event
+		 */
+		if ( !has_action( 'shutdown', [__CLASS__, 'printLog'] ) ) {
+			add_action( 'shutdown', [__CLASS__, 'printLog'] );
+		}
 	}
 	/**
 	 * Get the log from a wp transient
@@ -73,6 +72,10 @@ class Console {
 		foreach ( $log as $item ) {
 			self::print( $item, current_filter() );
 		}
+		/**
+		 * 3. Clear the log
+		 */
+		delete_transient( __CLASS__ . '_log' );
 	}
 	/**
 	 * Print log to console
